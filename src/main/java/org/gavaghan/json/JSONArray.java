@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A JSON array represented as a List&lt;JSONValue&gt;
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
@@ -21,7 +22,7 @@ public class JSONArray implements JSONValue
 	 */
 	public JSONArray(List<JSONValue> value)
 	{
-		if (value == null)  throw new NullPointerException("Null value not allowed.  Use JSONNull instead.");
+		if (value == null) throw new NullPointerException("Null value not allowed.  Use JSONNull instead.");
 		mValue = value;
 	}
 
@@ -40,7 +41,7 @@ public class JSONArray implements JSONValue
 	 */
 	public void setValue(List<JSONValue> value)
 	{
-		if (value == null)  throw new NullPointerException("Null value not allowed.  Use JSONNull instead.");
+		if (value == null) throw new NullPointerException("Null value not allowed.  Use JSONNull instead.");
 		mValue = value;
 	}
 
@@ -58,6 +59,8 @@ public class JSONArray implements JSONValue
 	/**
 	 * Read a JSON value (presumes the key has already been read).
 	 * 
+	 * @param path
+	 *           path to the value being read
 	 * @param pbr
 	 *           source reader
 	 * @throws IOException
@@ -66,38 +69,38 @@ public class JSONArray implements JSONValue
 	 *            on grammar error
 	 */
 	@Override
-	public void read(PushbackReader pbr) throws IOException, JSONException
+	public void read(String path, PushbackReader pbr) throws IOException, JSONException
 	{
 		char c = JSONObject.demand(pbr);
-		if (c != '[') throw new JSONException("Content does not appear to be an array.");
-		
+		if (c != '[') throw new JSONException(path, "Content does not appear to be an array.");
+
 		// empty array is an easy out
 		JSONObject.skipWhitespace(pbr);
 		c = JSONObject.demand(pbr);
-		if (c == ']')  return;
+		if (c == ']') return;
 		pbr.unread(c);
 
 		// loop through values
 		for (;;)
 		{
-			JSONValue value = JSONObject.readJSONValue(pbr);
+			JSONValue value = JSONObject.readJSONValue(path, pbr);
 			mValue.add(value);
-			
+
 			// get next non-whitespace
 			JSONObject.skipWhitespace(pbr);
 			c = JSONObject.demand(pbr);
-			
+
 			// is end?
-			if (c == ']')  return;
-			
+			if (c == ']') return;
+
 			// is more
 			if (c == ',')
 			{
 				JSONObject.skipWhitespace(pbr);
 				continue;
 			}
-			
-			throw new JSONException("Incorrectly formatted array: " + c);
+
+			throw new JSONException(path, "Incorrectly formatted array: " + c);
 		}
 	}
 }

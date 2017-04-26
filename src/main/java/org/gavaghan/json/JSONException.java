@@ -13,8 +13,21 @@ public class JSONException extends Exception
 	 * @param message
 	 *           a description of the exception
 	 */
-	public JSONException(String message)
+	//public JSONException(String message)
+	//{
+		//super(message);
+	//}
+	
+	/**
+	 * Create a new JSONException.
+	 * 
+	 * @param path
+	 *           path to the value being read
+	 * @param message
+	 *           a description of the exception
+	 */
+	public JSONException(String path, String message)
 	{
-		super(message);
+		super(path + ": " + message);
 	}
 }

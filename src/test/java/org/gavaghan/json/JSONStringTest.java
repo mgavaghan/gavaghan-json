@@ -14,7 +14,7 @@ public class JSONStringTest
 		try (StringReader rdr = new StringReader("\"ABC\\n\\\"DE\\u123DF\" "); PushbackReader pbr = new PushbackReader(rdr, 1))
 		{
 			JSONString str = new JSONString();
-			str.read(pbr);
+			str.read("$", pbr);
 
 			Assert.assertEquals("ABC\n\"DE\u123DF", str.getValue().toString());
 		}

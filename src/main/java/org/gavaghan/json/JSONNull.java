@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PushbackReader;
 
 /**
+ * A JSON null.
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
@@ -30,6 +31,8 @@ public class JSONNull implements JSONValue
 	/**
 	 * Read a JSON value (presumes the key has already been read).
 	 * 
+	 * @param path
+	 *           path to the value being read
 	 * @param pbr
 	 *           source reader
 	 * @throws IOException
@@ -38,17 +41,17 @@ public class JSONNull implements JSONValue
 	 *            on grammar error
 	 */
 	@Override
-	public void read(PushbackReader pbr) throws IOException, JSONException
+	public void read(String path, PushbackReader pbr) throws IOException, JSONException
 	{
 		char c = JSONObject.demand(pbr);
-		
+
 		if (c == 'n')
 		{
-			if (JSONObject.demand(pbr) != 'u')  throw new JSONException("Content does not appear to be a null.");
-			if (JSONObject.demand(pbr) != 'l')  throw new JSONException("Content does not appear to be a null.");
-			if (JSONObject.demand(pbr) != 'l')  throw new JSONException("Content does not appear to be a null.");
+			if (JSONObject.demand(pbr) != 'u') throw new JSONException(path, "Content does not appear to be a null.");
+			if (JSONObject.demand(pbr) != 'l') throw new JSONException(path, "Content does not appear to be a null.");
+			if (JSONObject.demand(pbr) != 'l') throw new JSONException(path, "Content does not appear to be a null.");
 		}
-	
-		else throw new JSONException("Content does not appear to be a null.");
+
+		else throw new JSONException(path, "Content does not appear to be a null.");
 	}
 }

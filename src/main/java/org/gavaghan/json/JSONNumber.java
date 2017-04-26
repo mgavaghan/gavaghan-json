@@ -5,6 +5,7 @@ import java.io.PushbackReader;
 import java.math.BigDecimal;
 
 /**
+ * A JSON number represented as a BigDecimal.
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
@@ -42,29 +43,31 @@ public class JSONNumber implements JSONValue
 	/**
 	 * Read the fractional part of the number.
 	 * 
+	 * @param path
+	 *           path to the value being read
 	 * @param pbr
 	 * @param builder
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	private void readFractionalPart(PushbackReader pbr, StringBuilder builder) throws IOException, JSONException
+	private void readFractionalPart(String path, PushbackReader pbr, StringBuilder builder) throws IOException, JSONException
 	{
 		char c;
 		c = JSONObject.demand(pbr);
 		if (c == '.')
 		{
 			builder.append(c);
-			
+
 			for (;;)
 			{
 				c = JSONObject.demand(pbr);
 				if (!Character.isDigit(c))
 				{
-					if (builder.toString().endsWith("."))  throw new JSONException("Digits expected after decimal points.");
+					if (builder.toString().endsWith(".")) throw new JSONException(path, "Digits expected after decimal points.");
 					pbr.unread(c);
 					break;
 				}
-				
+
 				builder.append(c);
 			}
 		}
@@ -77,25 +80,27 @@ public class JSONNumber implements JSONValue
 	/**
 	 * Read the exponent.
 	 * 
+	 * @param path
+	 *           path to the value being read
 	 * @param pbr
 	 * @param builder
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	private void readExponent(PushbackReader pbr, StringBuilder builder) throws IOException, JSONException
+	private void readExponent(String path, PushbackReader pbr, StringBuilder builder) throws IOException, JSONException
 	{
 		char c;
 		c = JSONObject.demand(pbr);
 		if (c == 'e' || (c == 'E'))
 		{
 			builder.append(c);
-			
+
 			c = JSONObject.demand(pbr);
-			
+
 			if (Character.isDigit(c) || (c == '+') || (c == '-'))
 			{
 				builder.append(c);
-				
+
 				for (;;)
 				{
 					c = JSONObject.demand(pbr);
@@ -104,11 +109,11 @@ public class JSONNumber implements JSONValue
 						pbr.unread(c);
 						break;
 					}
-					
+
 					builder.append(c);
 				}
 			}
-			else throw new JSONException("Content does not appear to be a number");
+			else throw new JSONException(path, "Content does not appear to be a number");
 		}
 		else
 		{
@@ -160,6 +165,8 @@ public class JSONNumber implements JSONValue
 	/**
 	 * Read a JSON value (presumes the key has already been read).
 	 * 
+	 * @param path
+	 *           path to the value being read
 	 * @param pbr
 	 *           source reader
 	 * @throws IOException
@@ -168,20 +175,20 @@ public class JSONNumber implements JSONValue
 	 *            on grammar error
 	 */
 	@Override
-	public void read(PushbackReader pbr) throws IOException, JSONException
+	public void read(String path, PushbackReader pbr) throws IOException, JSONException
 	{
 		StringBuilder builder = new StringBuilder();
 
 		char c = JSONObject.demand(pbr);
-		if (!Character.isDigit(c) && (c != '-')) throw new JSONException("Content does not appear to be a number.");
+		if (!Character.isDigit(c) && (c != '-')) throw new JSONException(path, "Content does not appear to be a number.");
 
 		builder.append(c);
 
 		// read the number
-		if (c != '0')	readWholePart(pbr, builder);
-		readFractionalPart(pbr, builder);
-		readExponent(pbr, builder);
-		
+		if (c != '0') readWholePart(pbr, builder);
+		readFractionalPart(path, pbr, builder);
+		readExponent(path, pbr, builder);
+
 		// parse and set value
 		try
 		{
@@ -189,7 +196,7 @@ public class JSONNumber implements JSONValue
 		}
 		catch (NumberFormatException exc)
 		{
-			throw new JSONException("Illegal number format: " + builder.toString());
+			throw new JSONException(path, "Illegal number format: " + builder.toString());
 		}
 	}
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PushbackReader;
 
 /**
+ * A JSON string.
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
@@ -15,17 +16,19 @@ public class JSONString implements JSONValue
 	/**
 	 * Read a string value.
 	 * 
+	 * @param path
+	 *           path to the value being read
 	 * @param pbr
 	 * @return
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	static String readString(PushbackReader pbr) throws IOException, JSONException
+	static String readString(String path, PushbackReader pbr) throws IOException, JSONException
 	{
 		StringBuilder builder = new StringBuilder();
 
 		char c = JSONObject.demand(pbr);
-		if (c != '\"') throw new JSONException("Leading quote expected at start of string.");
+		if (c != '\"') throw new JSONException(path, "Leading quote expected at start of string.");
 
 		for (;;)
 		{
@@ -74,11 +77,11 @@ public class JSONString implements JSONValue
 					}
 					catch (NumberFormatException exc)
 					{
-						throw new JSONException("Illegal unicode value: " + hex.toString());
+						throw new JSONException(path, "Illegal unicode value: " + hex.toString());
 					}
 					break;
 				default:
-					throw new JSONException("Illegal escape value in string: " + c);
+					throw new JSONException(path, "Illegal escape value in string: " + c);
 				}
 			}
 			else
@@ -134,6 +137,8 @@ public class JSONString implements JSONValue
 	/**
 	 * Read a JSON value (presumes the key has already been read).
 	 * 
+	 * @param path
+	 *           path to the value being read
 	 * @param pbr
 	 *           source reader
 	 * @throws IOException
@@ -142,8 +147,8 @@ public class JSONString implements JSONValue
 	 *            on grammar error
 	 */
 	@Override
-	public void read(PushbackReader pbr) throws IOException, JSONException
+	public void read(String path, PushbackReader pbr) throws IOException, JSONException
 	{
-		mValue = readString(pbr);
+		mValue = readString(path, pbr);
 	}
 }
