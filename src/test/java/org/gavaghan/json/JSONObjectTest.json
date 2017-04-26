@@ -1,0 +1,18 @@
+{
+    "number": 123,
+    "string": "Hello, World!",
+    "emptystring": "",
+    "true": true,
+    "false": false,
+    "null": null,
+    "emptyarray": [],
+    "array": [
+        true,
+        false,
+        "json"
+    ],
+    "object": {
+        "color" : "red",
+        "size" : "large"
+    }
+}
