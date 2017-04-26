@@ -2,6 +2,7 @@ package org.gavaghan.json;
 
 import java.io.IOException;
 import java.io.PushbackReader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +102,46 @@ public class JSONArray implements JSONValue
 			}
 
 			throw new JSONException(path, "Incorrectly formatted array: " + c);
+		}
+	}
+
+	/**
+	 * Render this JSON value to a Writer.
+	 * 
+	 * @param indent
+	 * @param writer
+	 * @throws IOException
+	 */
+	@Override
+	public void write(String indent, Writer writer)  throws IOException
+	{
+		String newIndent = indent + "   ";
+		
+		if (mValue.size() == 0)
+		{
+			writer.write("[]");
+		}
+		else
+		{
+			int count = 1;
+			
+			writer.write("[");
+			writer.write(JSONObject.EOL);
+
+			for (JSONValue value : mValue)
+			{
+				writer.write(newIndent);
+				
+				value.write(newIndent, writer);
+				
+				if (count != mValue.size())  writer.write(',');
+				
+				writer.write(JSONObject.EOL);
+				count++;
+			}
+
+			writer.write(indent);
+			writer.write("]");
 		}
 	}
 }

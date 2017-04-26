@@ -2,6 +2,7 @@ package org.gavaghan.json;
 
 import java.io.IOException;
 import java.io.PushbackReader;
+import java.io.Writer;
 import java.math.BigDecimal;
 
 /**
@@ -198,5 +199,18 @@ public class JSONNumber implements JSONValue
 		{
 			throw new JSONException(path, "Illegal number format: " + builder.toString());
 		}
+	}
+
+	/**
+	 * Render this JSON value to a Writer.
+	 * 
+	 * @param indent
+	 * @param writer
+	 * @throws IOException
+	 */
+	@Override
+	public void write(String indent, Writer writer)  throws IOException
+	{
+		writer.write(mValue.toString());
 	}
 }

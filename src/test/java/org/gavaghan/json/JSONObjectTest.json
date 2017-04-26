@@ -4,7 +4,6 @@
     "emptystring": "",
     "true": true,
     "false": false,
-    "null": null,
     "emptyarray": [],
     "array": [
         true,
@@ -14,5 +13,7 @@
     "object": {
         "color" : "red",
         "size" : "large"
-    }
+    },
+    "emptyobject": {},
+    "null": null
 }

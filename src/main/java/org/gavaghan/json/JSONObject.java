@@ -3,6 +3,8 @@ package org.gavaghan.json;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.LinkedHashMap;
 
 /**
@@ -12,6 +14,9 @@ import java.util.LinkedHashMap;
  */
 public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSONValue
 {
+	/** End of line delimiter. */
+	static public final String EOL = System.getProperty("line.separator");
+
 	/**
 	 * Skip to first non-whitespace character.
 	 * 
@@ -216,5 +221,70 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 
 			throw new JSONException(path, "JSON object is not grammatically correct.  Unexpected: " + c);
 		}
+	}
+
+	/**
+	 * Render this JSON value to a Writer.
+	 * 
+	 * @param indent
+	 * @param writer
+	 * @throws IOException
+	 */
+	@Override
+	public void write(String indent, Writer writer) throws IOException
+	{
+		String newIndent = indent + "   ";
+
+		if (size() == 0)
+		{
+			writer.write("{}");
+		}
+		else
+		{
+			writer.write('{');
+
+			int count = 1;
+
+			writer.write(EOL);
+
+			for (String key : keySet())
+			{
+				writer.write(newIndent);
+				writer.write('\"');
+				writer.write(key);
+				writer.write("\": ");
+
+				get(key).write(newIndent, writer);
+
+				if (count != size()) writer.write(',');
+
+				writer.write(EOL);
+				count++;
+			}
+
+			writer.write(indent);
+			writer.write('}');
+		}
+	}
+
+	/**
+	 * Render this object as a string.
+	 */
+	@Override
+	public String toString()
+	{
+		String str;
+
+		try (StringWriter writer = new StringWriter())
+		{
+			write("", writer);
+			str = writer.toString();
+		}
+		catch (IOException exc)
+		{
+			throw new RuntimeException("Unexpectedly failed to render string", exc);
+		}
+
+		return str;
 	}
 }

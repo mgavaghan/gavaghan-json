@@ -2,6 +2,7 @@ package org.gavaghan.json;
 
 import java.io.IOException;
 import java.io.PushbackReader;
+import java.io.Writer;
 
 /**
  * A JSON boolean.
@@ -89,5 +90,18 @@ public class JSONBoolean implements JSONValue
 		}
 		
 		else throw new JSONException(path, "Content does not appear to be a boolean.");
+	}
+
+	/**
+	 * Render this JSON value to a Writer.
+	 * 
+	 * @param indent
+	 * @param writer
+	 * @throws IOException
+	 */
+	@Override
+	public void write(String indent, Writer writer)  throws IOException
+	{
+		writer.write(mValue.toString());
 	}
 }

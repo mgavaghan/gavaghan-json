@@ -2,6 +2,7 @@ package org.gavaghan.json;
 
 import java.io.IOException;
 import java.io.PushbackReader;
+import java.io.Writer;
 
 /**
  * A JSON string.
@@ -150,5 +151,20 @@ public class JSONString implements JSONValue
 	public void read(String path, PushbackReader pbr) throws IOException, JSONException
 	{
 		mValue = readString(path, pbr);
+	}
+
+	/**
+	 * Render this JSON value to a Writer.
+	 * 
+	 * @param indent
+	 * @param writer
+	 * @throws IOException
+	 */
+	@Override
+	public void write(String indent, Writer writer)  throws IOException
+	{
+		writer.write('\"');
+		writer.write(mValue);
+		writer.write('\"');
 	}
 }
