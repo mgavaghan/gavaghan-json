@@ -7,17 +7,9 @@ package org.gavaghan.json;
  */
 public class JSONException extends Exception
 {
-	/**
-	 * Create a new JSONException.
-	 * 
-	 * @param message
-	 *           a description of the exception
-	 */
-	//public JSONException(String message)
-	//{
-		//super(message);
-	//}
-	
+	/** Path to the offending content. */
+	private final String mPath;
+
 	/**
 	 * Create a new JSONException.
 	 * 
@@ -29,5 +21,17 @@ public class JSONException extends Exception
 	public JSONException(String path, String message)
 	{
 		super(path + ": " + message);
+
+		mPath = path;
+	}
+
+	/**
+	 * Get path to the offending content.
+	 * 
+	 * @return
+	 */
+	public String getPath()
+	{
+		return mPath;
 	}
 }
