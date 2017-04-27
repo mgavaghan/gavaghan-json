@@ -161,10 +161,34 @@ public class JSONString implements JSONValue
 	 * @throws IOException
 	 */
 	@Override
-	public void write(String indent, Writer writer)  throws IOException
+	public void write(String indent, Writer writer) throws IOException
 	{
+		StringBuilder builder = new StringBuilder();
+
+		for (int i = 0; i < mValue.length(); i++)
+		{
+			char c = mValue.charAt(i);
+
+			if (c == '\"') builder.append("\\\"");
+			else if (c == '\\') builder.append("\\\\");
+			else if ((c >= 32) && (c <= 126)) builder.append(c);
+			else if (c == '\b') builder.append("\\b");
+			else if (c == '\f') builder.append("\\f");
+			else if (c == '\n') builder.append("\\n");
+			else if (c == '\r') builder.append("\\r");
+			else if (c == '\t') builder.append("\\t");
+			else
+			{
+				String hex = "0000" + Integer.toString(c, 16);
+				hex = hex.substring(hex.length() - 4);
+				
+				builder.append("\\u");
+				builder.append(hex);
+			}
+		}
+
 		writer.write('\"');
-		writer.write(mValue);
+		writer.write(builder.toString());
 		writer.write('\"');
 	}
 }
