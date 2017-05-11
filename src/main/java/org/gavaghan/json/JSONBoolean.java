@@ -9,7 +9,7 @@ import java.io.Writer;
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
-public class JSONBoolean implements JSONValue
+public class JSONBoolean extends AbstractJSONValue
 {
 	/** The underlying value. **/
 	private Boolean mValue;

@@ -9,7 +9,7 @@ import java.io.Writer;
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
-public class JSONString implements JSONValue
+public class JSONString extends AbstractJSONValue
 {
 	/** The underlying value. **/
 	private String mValue;

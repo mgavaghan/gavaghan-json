@@ -11,7 +11,7 @@ import java.util.List;
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
-public class JSONArray implements JSONValue
+public class JSONArray extends AbstractJSONValue
 {
 	/** The underlying value. **/
 	private List<JSONValue> mValue;

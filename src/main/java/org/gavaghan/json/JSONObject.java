@@ -167,19 +167,7 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	 */
 	@Override
 	public String toString()
-	{
-		String str;
-
-		try (StringWriter writer = new StringWriter())
-		{
-			write("", writer);
-			str = writer.toString();
-		}
-		catch (IOException exc)
-		{
-			throw new RuntimeException("Unexpectedly failed to render string", exc);
-		}
-
-		return str;
+	{		
+		return AbstractJSONValue.toString(this);
 	}
 }

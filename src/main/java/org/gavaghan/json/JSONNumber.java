@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
-public class JSONNumber implements JSONValue
+public class JSONNumber extends AbstractJSONValue
 {
 	/** The underlying value. **/
 	private BigDecimal mValue;

@@ -9,7 +9,7 @@ import java.io.Writer;
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
-public class JSONNull implements JSONValue
+public class JSONNull extends AbstractJSONValue
 {
 	/**
 	 * Create a new JSONBoolean.
