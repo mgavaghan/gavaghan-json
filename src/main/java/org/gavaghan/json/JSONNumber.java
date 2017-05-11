@@ -28,7 +28,7 @@ public class JSONNumber implements JSONValue
 		char c;
 		for (;;)
 		{
-			c = JSONObject.demand(pbr);
+			c = JSONValueFactory.demand(pbr);
 			if (Character.isDigit(c))
 			{
 				builder.append(c);
@@ -54,14 +54,14 @@ public class JSONNumber implements JSONValue
 	private void readFractionalPart(String path, PushbackReader pbr, StringBuilder builder) throws IOException, JSONException
 	{
 		char c;
-		c = JSONObject.demand(pbr);
+		c = JSONValueFactory.demand(pbr);
 		if (c == '.')
 		{
 			builder.append(c);
 
 			for (;;)
 			{
-				c = JSONObject.demand(pbr);
+				c = JSONValueFactory.demand(pbr);
 				if (!Character.isDigit(c))
 				{
 					if (builder.toString().endsWith(".")) throw new JSONException(path, "Digits expected after decimal points.");
@@ -91,12 +91,12 @@ public class JSONNumber implements JSONValue
 	private void readExponent(String path, PushbackReader pbr, StringBuilder builder) throws IOException, JSONException
 	{
 		char c;
-		c = JSONObject.demand(pbr);
+		c = JSONValueFactory.demand(pbr);
 		if (c == 'e' || (c == 'E'))
 		{
 			builder.append(c);
 
-			c = JSONObject.demand(pbr);
+			c = JSONValueFactory.demand(pbr);
 
 			if (Character.isDigit(c) || (c == '+') || (c == '-'))
 			{
@@ -104,7 +104,7 @@ public class JSONNumber implements JSONValue
 
 				for (;;)
 				{
-					c = JSONObject.demand(pbr);
+					c = JSONValueFactory.demand(pbr);
 					if (!Character.isDigit(c))
 					{
 						pbr.unread(c);
@@ -180,7 +180,7 @@ public class JSONNumber implements JSONValue
 	{
 		StringBuilder builder = new StringBuilder();
 
-		char c = JSONObject.demand(pbr);
+		char c = JSONValueFactory.demand(pbr);
 		if (!Character.isDigit(c) && (c != '-')) throw new JSONException(path, "Content does not appear to be a number.");
 
 		builder.append(c);

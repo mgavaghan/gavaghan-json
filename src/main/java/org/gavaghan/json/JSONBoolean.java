@@ -70,22 +70,22 @@ public class JSONBoolean implements JSONValue
 	@Override
 	public void read(String path, PushbackReader pbr) throws IOException, JSONException
 	{
-		char c = JSONObject.demand(pbr);
+		char c = JSONValueFactory.demand(pbr);
 		
 		if (c == 't')
 		{
-			if (JSONObject.demand(pbr) != 'r')  throw new JSONException(path, "Content does not appear to be a boolean.");
-			if (JSONObject.demand(pbr) != 'u')  throw new JSONException(path, "Content does not appear to be a boolean.");
-			if (JSONObject.demand(pbr) != 'e')  throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'r')  throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'u')  throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'e')  throw new JSONException(path, "Content does not appear to be a boolean.");
 			mValue = Boolean.TRUE;
 		}
 		
 		else if (c == 'f')
 		{
-			if (JSONObject.demand(pbr) != 'a')  throw new JSONException(path, "Content does not appear to be a boolean.");
-			if (JSONObject.demand(pbr) != 'l')  throw new JSONException(path, "Content does not appear to be a boolean.");
-			if (JSONObject.demand(pbr) != 's')  throw new JSONException(path, "Content does not appear to be a boolean.");
-			if (JSONObject.demand(pbr) != 'e')  throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'a')  throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'l')  throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 's')  throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'e')  throw new JSONException(path, "Content does not appear to be a boolean.");
 			mValue = Boolean.FALSE;
 		}
 		

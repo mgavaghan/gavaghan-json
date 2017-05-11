@@ -15,7 +15,7 @@ public class JSONObjectTest
 	{
 		try (InputStream instr = JSONObjectTest.class.getResourceAsStream("JSONObjectTest.json"); InputStreamReader rdr = new InputStreamReader(instr))
 		{
-			JSONObject json = JSONObject.read(rdr);
+			JSONObject json = (JSONObject) JSONValueFactory.DEFAULT.read(rdr);
 
 			Assert.assertEquals(new BigDecimal("123"), json.get("number").getValue());
 			Assert.assertEquals("Hello, World!", json.get("string").getValue());

@@ -28,12 +28,12 @@ public class JSONString implements JSONValue
 	{
 		StringBuilder builder = new StringBuilder();
 
-		char c = JSONObject.demand(pbr);
+		char c = JSONValueFactory.demand(pbr);
 		if (c != '\"') throw new JSONException(path, "Leading quote expected at start of string.");
 
 		for (;;)
 		{
-			c = JSONObject.demand(pbr);
+			c = JSONValueFactory.demand(pbr);
 
 			// if closing quote
 			if (c == '\"') break;
@@ -41,7 +41,7 @@ public class JSONString implements JSONValue
 			// if escape
 			if (c == '\\')
 			{
-				c = JSONObject.demand(pbr);
+				c = JSONValueFactory.demand(pbr);
 
 				switch (c)
 				{
@@ -67,10 +67,10 @@ public class JSONString implements JSONValue
 					break;
 				case 'u':
 					StringBuilder hex = new StringBuilder();
-					hex.append(JSONObject.demand(pbr));
-					hex.append(JSONObject.demand(pbr));
-					hex.append(JSONObject.demand(pbr));
-					hex.append(JSONObject.demand(pbr));
+					hex.append(JSONValueFactory.demand(pbr));
+					hex.append(JSONValueFactory.demand(pbr));
+					hex.append(JSONValueFactory.demand(pbr));
+					hex.append(JSONValueFactory.demand(pbr));
 					try
 					{
 						int uchar = Integer.parseInt(hex.toString(), 16);

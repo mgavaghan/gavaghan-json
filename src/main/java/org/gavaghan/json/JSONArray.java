@@ -16,6 +16,9 @@ public class JSONArray implements JSONValue
 	/** The underlying value. **/
 	private List<JSONValue> mValue;
 
+	/** JSONValueFactory for reading from a Reader. */
+	private JSONValueFactory mFactory;
+
 	/**
 	 * Create a new JSONArray.
 	 * 
@@ -29,6 +32,17 @@ public class JSONArray implements JSONValue
 
 	/**
 	 * Create a new JSONArray.
+	 * 
+	 * @param factory
+	 */
+	protected JSONArray(JSONValueFactory factory)
+	{
+		mValue = new ArrayList<JSONValue>();
+		mFactory = factory;
+	}
+
+	/**
+	 * Create a new JSONArray for reading.
 	 */
 	public JSONArray()
 	{
@@ -72,36 +86,43 @@ public class JSONArray implements JSONValue
 	@Override
 	public void read(String path, PushbackReader pbr) throws IOException, JSONException
 	{
-		char c = JSONObject.demand(pbr);
+		char c = JSONValueFactory.demand(pbr);
 		if (c != '[') throw new JSONException(path, "Content does not appear to be an array.");
 
 		// empty array is an easy out
-		JSONObject.skipWhitespace(pbr);
-		c = JSONObject.demand(pbr);
+		JSONValueFactory.skipWhitespace(pbr);
+		c = JSONValueFactory.demand(pbr);
 		if (c == ']') return;
 		pbr.unread(c);
 
 		// loop through values
-		for (;;)
+		try
 		{
-			JSONValue value = JSONObject.readJSONValue(path, pbr);
-			mValue.add(value);
-
-			// get next non-whitespace
-			JSONObject.skipWhitespace(pbr);
-			c = JSONObject.demand(pbr);
-
-			// is end?
-			if (c == ']') return;
-
-			// is more
-			if (c == ',')
+			for (;;)
 			{
-				JSONObject.skipWhitespace(pbr);
-				continue;
-			}
+				JSONValue value = mFactory.read(path, pbr);
+				mValue.add(value);
 
-			throw new JSONException(path, "Incorrectly formatted array: " + c);
+				// get next non-whitespace
+				JSONValueFactory.skipWhitespace(pbr);
+				c = JSONValueFactory.demand(pbr);
+
+				// is end?
+				if (c == ']') return;
+
+				// is more
+				if (c == ',')
+				{
+					JSONValueFactory.skipWhitespace(pbr);
+					continue;
+				}
+
+				throw new JSONException(path, "Incorrectly formatted array: " + c);
+			}
+		}
+		finally
+		{
+			mFactory = null;
 		}
 	}
 
@@ -113,10 +134,10 @@ public class JSONArray implements JSONValue
 	 * @throws IOException
 	 */
 	@Override
-	public void write(String indent, Writer writer)  throws IOException
+	public void write(String indent, Writer writer) throws IOException
 	{
 		String newIndent = indent + "   ";
-		
+
 		if (mValue.size() == 0)
 		{
 			writer.write("[]");
@@ -124,18 +145,18 @@ public class JSONArray implements JSONValue
 		else
 		{
 			int count = 1;
-			
+
 			writer.write("[");
 			writer.write(JSONObject.EOL);
 
 			for (JSONValue value : mValue)
 			{
 				writer.write(newIndent);
-				
+
 				value.write(newIndent, writer);
-				
-				if (count != mValue.size())  writer.write(',');
-				
+
+				if (count != mValue.size()) writer.write(',');
+
 				writer.write(JSONObject.EOL);
 				count++;
 			}

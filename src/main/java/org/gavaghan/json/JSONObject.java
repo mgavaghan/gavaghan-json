@@ -2,7 +2,6 @@ package org.gavaghan.json;
 
 import java.io.IOException;
 import java.io.PushbackReader;
-import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.LinkedHashMap;
@@ -17,132 +16,26 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	/** End of line delimiter. */
 	static public final String EOL = System.getProperty("line.separator");
 
+	/** JSONValueFactory for reading from a Reader. */
+	private JSONValueFactory mFactory;
+
 	/**
-	 * Skip to first non-whitespace character.
+	 * Create a new JSONObject.
 	 * 
-	 * @param pbr
-	 *           a pushback reader
-	 * @throws IOException
+	 * @param factory
 	 */
-	static void skipWhitespace(PushbackReader pbr) throws IOException
+	protected JSONObject(JSONValueFactory factory)
 	{
-		for (;;)
-		{
-			int c = pbr.read();
-
-			if (c < 0) break; // bail on EOF
-
-			// if non-whitespace found, push it back and exit
-			if (!Character.isWhitespace(c))
-			{
-				pbr.unread(c);
-				break;
-			}
-		}
+		mFactory = factory;
 	}
 
 	/**
-	 * Demand a characters and throw a JSONException if EOF.
+	 * Create a new JSONObject.
 	 * 
-	 * @param rdr
-	 *           a reader
-	 * @return
-	 * @throws IOException
-	 * @throws JSONException
+	 * @param factory
 	 */
-	static char demand(Reader rdr) throws IOException, JSONException
+	public JSONObject()
 	{
-		int c = rdr.read();
-		if (c < 0) throw new JSONException("$", "Out of data while reading JSON object.");
-		return (char) c;
-	}
-
-	/**
-	 * Read a JSONValue.
-	 * 
-	 * @param path
-	 *           JSON path to the value we're reading
-	 * @param pbr
-	 *           a pushback reader
-	 * @return
-	 * @throws IOException
-	 * @throws JSONException
-	 */
-	static JSONValue readJSONValue(String path, PushbackReader pbr) throws IOException, JSONException
-	{
-		JSONValue value;
-		char c = JSONObject.demand(pbr);
-
-		pbr.unread(c);
-
-		// is it a string?
-		if (c == '\"')
-		{
-			value = new JSONString();
-		}
-		// is it a number?
-		else if (Character.isDigit(c) || (c == '-'))
-		{
-			value = new JSONNumber();
-		}
-		// is it an array?
-		else if (c == '[')
-		{
-			value = new JSONArray();
-		}
-		// is it an object?
-		else if (c == '{')
-		{
-			value = new JSONObject();
-		}
-		// is it a boolean?
-		else if ((c == 't') || (c == 'f'))
-		{
-			value = new JSONBoolean();
-		}
-		// is it a null?
-		else if (c == 'n')
-		{
-			value = new JSONNull();
-		}
-		// else, grammar error
-		else
-		{
-			throw new JSONException(path, "Illegal start of JSON value: " + c);
-		}
-
-		// implementation specific read
-		value.read(path, pbr);
-
-		return value;
-	}
-
-	/**
-	 * Read a JSONObject from a Reader.
-	 * 
-	 * @param reader
-	 *           a reader
-	 * @return a JSONObject, or null is EOF is reached.
-	 * @throws IOException
-	 * @throws JSONException
-	 */
-	static public JSONObject read(Reader reader) throws IOException, JSONException
-	{
-		JSONObject json = new JSONObject();
-		PushbackReader pbr = new PushbackReader(reader);
-
-		// look for start of object
-		skipWhitespace(pbr);
-		int c = pbr.read();
-
-		// bail out early if EOF
-		if (c < 0) return null;
-
-		pbr.unread(c);
-
-		json.read("$", pbr);
-
-		return json;
 	}
 
 	/**
@@ -172,7 +65,7 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	public void read(String path, PushbackReader pbr) throws IOException, JSONException
 	{
 		// assert we have an opening brace
-		char c = JSONObject.demand(pbr);
+		char c = JSONValueFactory.demand(pbr);
 		if (c != '{') throw new JSONException(path, "Failed to find '{' at start of JSON object.");
 
 		for (;;)
@@ -180,8 +73,8 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 			String key;
 
 			// next is either a key or a closing brace
-			JSONObject.skipWhitespace(pbr);
-			c = JSONObject.demand(pbr);
+			JSONValueFactory.skipWhitespace(pbr);
+			c = JSONValueFactory.demand(pbr);
 
 			// is it a string?
 			if (c == '\"')
@@ -197,30 +90,32 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 			// else, it's poorly formed
 			else
 			{
-				throw new JSONException(path, "JSON object is not grammatically correct.  Unexpected: " + (int) c);
+				throw new JSONException(path, "JSON object is not grammatically correct.  Unexpected: " + c);
 			}
 
 			// next ought to be a colon
-			JSONObject.skipWhitespace(pbr);
-			c = JSONObject.demand(pbr);
+			JSONValueFactory.skipWhitespace(pbr);
+			c = JSONValueFactory.demand(pbr);
 			if (c != ':') throw new JSONException(path + "." + key, "Expected ':' after key value");
-			JSONObject.skipWhitespace(pbr);
+			JSONValueFactory.skipWhitespace(pbr);
 
 			// next, read a JSONValue
-			JSONValue value = readJSONValue(path + "." + key, pbr);
+			JSONValue value = mFactory.read(path + "." + key, pbr);
 
 			// add it to the map
 			put(key, value);
 
 			// next must be comma or close
-			JSONObject.skipWhitespace(pbr);
-			c = JSONObject.demand(pbr);
+			JSONValueFactory.skipWhitespace(pbr);
+			c = JSONValueFactory.demand(pbr);
 
 			if (c == ',') continue;
 			if (c == '}') break;
 
 			throw new JSONException(path, "JSON object is not grammatically correct.  Unexpected: " + c);
 		}
+		
+		mFactory = null;
 	}
 
 	/**

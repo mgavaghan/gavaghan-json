@@ -44,13 +44,13 @@ public class JSONNull implements JSONValue
 	@Override
 	public void read(String path, PushbackReader pbr) throws IOException, JSONException
 	{
-		char c = JSONObject.demand(pbr);
+		char c = JSONValueFactory.demand(pbr);
 
 		if (c == 'n')
 		{
-			if (JSONObject.demand(pbr) != 'u') throw new JSONException(path, "Content does not appear to be a null.");
-			if (JSONObject.demand(pbr) != 'l') throw new JSONException(path, "Content does not appear to be a null.");
-			if (JSONObject.demand(pbr) != 'l') throw new JSONException(path, "Content does not appear to be a null.");
+			if (JSONValueFactory.demand(pbr) != 'u') throw new JSONException(path, "Content does not appear to be a null.");
+			if (JSONValueFactory.demand(pbr) != 'l') throw new JSONException(path, "Content does not appear to be a null.");
+			if (JSONValueFactory.demand(pbr) != 'l') throw new JSONException(path, "Content does not appear to be a null.");
 		}
 
 		else throw new JSONException(path, "Content does not appear to be a null.");
