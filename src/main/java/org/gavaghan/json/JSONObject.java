@@ -2,7 +2,6 @@ package org.gavaghan.json;
 
 import java.io.IOException;
 import java.io.PushbackReader;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.LinkedHashMap;
 
@@ -122,11 +121,15 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	 * Render this JSON value to a Writer.
 	 * 
 	 * @param indent
+	 *           indent padding
 	 * @param writer
+	 *           target writer
+	 * @param pretty
+	 *           'true' for pretty-print, 'false' for flat
 	 * @throws IOException
 	 */
 	@Override
-	public void write(String indent, Writer writer) throws IOException
+	public void write(String indent, Writer writer, boolean pretty) throws IOException
 	{
 		String newIndent = indent + "   ";
 
@@ -144,16 +147,17 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 
 			for (String key : keySet())
 			{
-				writer.write(newIndent);
+				if (pretty)  writer.write(newIndent);
 				writer.write('\"');
 				writer.write(key);
-				writer.write("\": ");
+				writer.write("\":");
+				if (pretty)  writer.write(" ");
 
-				get(key).write(newIndent, writer);
+				get(key).write(newIndent, writer, pretty);
 
 				if (count != size()) writer.write(',');
 
-				writer.write(EOL);
+				if (pretty)  writer.write(EOL);
 				count++;
 			}
 
@@ -168,6 +172,24 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	@Override
 	public String toString()
 	{		
-		return AbstractJSONValue.toString(this);
+		return toPrettyString();
+	}
+
+	/**
+	 * Render this object as a pretty-printed string.
+	 */
+	@Override
+	public String toPrettyString()
+	{
+		return AbstractJSONValue.toString(this, true);
+	}
+
+	/**
+	 * Render this object as a flattened string.
+	 */
+	@Override
+	public String toFlatString()
+	{
+		return AbstractJSONValue.toString(this, false);
 	}
 }

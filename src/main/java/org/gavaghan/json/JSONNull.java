@@ -60,11 +60,15 @@ public class JSONNull extends AbstractJSONValue
 	 * Render this JSON value to a Writer.
 	 * 
 	 * @param indent
+	 *           indent padding
 	 * @param writer
+	 *           target writer
+	 * @param pretty
+	 *           'true' for pretty-print, 'false' for flat
 	 * @throws IOException
 	 */
 	@Override
-	public void write(String indent, Writer writer)  throws IOException
+	public void write(String indent, Writer writer, boolean pretty)  throws IOException
 	{
 		writer.write("null");
 	}

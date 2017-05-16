@@ -36,8 +36,22 @@ public interface JSONValue
 	 * Render this JSON value to a Writer.
 	 * 
 	 * @param indent
+	 *           indent padding
 	 * @param writer
+	 *           target writer
+	 * @param pretty
+	 *           'true' for pretty-print, 'false' for flat
 	 * @throws IOException
 	 */
-	public void write(String indent, Writer writer) throws IOException;
+	public void write(String indent, Writer writer, boolean pretty) throws IOException;
+
+	/**
+	 * Render this object as a pretty-printed string.
+	 */
+	public String toPrettyString();
+
+	/**
+	 * Render this object as a flattened string.
+	 */
+	public String toFlatString();
 }

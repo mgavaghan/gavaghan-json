@@ -29,7 +29,7 @@ public class JSONStringTest
 			JSONString str = new JSONString();
 			str.read("$", pbr);
 
-			str.write("", wrt);
+			str.write("", wrt, true);
 
 			String output = wrt.toString();
 
@@ -47,7 +47,7 @@ public class JSONStringTest
 
 			Assert.assertEquals("\"", str.getValue().toString());
 
-			str.write("", wrt);
+			str.write("", wrt, true);
 
 			String output = wrt.toString();
 
@@ -63,7 +63,7 @@ public class JSONStringTest
 			JSONString str = new JSONString();
 			str.read("$", pbr);
 
-			str.write("", wrt);
+			str.write("", wrt, true);
 
 			String output = wrt.toString();
 

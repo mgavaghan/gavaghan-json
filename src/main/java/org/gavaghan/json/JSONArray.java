@@ -130,11 +130,15 @@ public class JSONArray extends AbstractJSONValue
 	 * Render this JSON value to a Writer.
 	 * 
 	 * @param indent
+	 *           indent padding
 	 * @param writer
+	 *           target writer
+	 * @param pretty
+	 *           'true' for pretty-print, 'false' for flat
 	 * @throws IOException
 	 */
 	@Override
-	public void write(String indent, Writer writer) throws IOException
+	public void write(String indent, Writer writer, boolean pretty) throws IOException
 	{
 		String newIndent = indent + "   ";
 
@@ -153,7 +157,7 @@ public class JSONArray extends AbstractJSONValue
 			{
 				writer.write(newIndent);
 
-				value.write(newIndent, writer);
+				value.write(newIndent, writer, pretty);
 
 				if (count != mValue.size()) writer.write(',');
 
