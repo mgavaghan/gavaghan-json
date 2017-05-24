@@ -135,6 +135,36 @@ public class JSONNumber extends AbstractJSONValue
 
 	/**
 	 * Create a new JSONNumber.
+	 * 
+	 * @param value
+	 */
+	public JSONNumber(long value)
+	{
+		mValue = new BigDecimal(value);
+	}
+
+	/**
+	 * Create a new JSONNumber.
+	 * 
+	 * @param value
+	 */
+	public JSONNumber(double value)
+	{
+		mValue = new BigDecimal(value);
+	}
+
+	/**
+	 * Create a new JSONNumber.
+	 * 
+	 * @param value
+	 */
+	public JSONNumber(String value)
+	{
+		mValue = new BigDecimal(value);
+	}
+
+	/**
+	 * Create a new JSONNumber.
 	 */
 	public JSONNumber()
 	{

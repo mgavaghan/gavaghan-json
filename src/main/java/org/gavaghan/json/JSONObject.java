@@ -143,7 +143,7 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 
 			int count = 1;
 
-			writer.write(EOL);
+			if (pretty) writer.write(EOL);
 
 			for (String key : keySet())
 			{
