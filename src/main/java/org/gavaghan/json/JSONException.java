@@ -1,7 +1,7 @@
 package org.gavaghan.json;
 
 /**
- * Except thrown when a document does not conform to the JSON grammar.
+ * Exception thrown when a document does not conform to the JSON grammar.
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */

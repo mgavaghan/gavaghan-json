@@ -12,7 +12,10 @@ import java.util.LinkedHashMap;
  */
 public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSONValue
 {
-	/** End of line delimiter. */
+	/**
+	 * System dependent end-of-line delimiter take from system property
+	 * "line.separator"
+	 */
 	static public final String EOL = System.getProperty("line.separator");
 
 	/** JSONValueFactory for reading from a Reader. */
@@ -22,6 +25,7 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	 * Create a new JSONObject.
 	 * 
 	 * @param factory
+	 *           the factory implementation used to read values in the object.
 	 */
 	protected JSONObject(JSONValueFactory factory)
 	{
@@ -49,7 +53,9 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	}
 
 	/**
-	 * Read a JSON value (presumes the key has already been read).
+	 * Read a JSON value (presumes the key has already been read) and set the
+	 * underlying value. There's generally no reason to call this method
+	 * directly. It is intended to be overridden by an extended type.
 	 * 
 	 * @param path
 	 *           path to the value being read
@@ -113,7 +119,7 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 
 			throw new JSONException(path, "JSON object is not grammatically correct.  Unexpected: " + c);
 		}
-		
+
 		mFactory = null;
 	}
 
@@ -147,17 +153,17 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 
 			for (String key : keySet())
 			{
-				if (pretty)  writer.write(newIndent);
+				if (pretty) writer.write(newIndent);
 				writer.write('\"');
 				writer.write(key);
 				writer.write("\":");
-				if (pretty)  writer.write(" ");
+				if (pretty) writer.write(" ");
 
 				get(key).write(newIndent, writer, pretty);
 
 				if (count != size()) writer.write(',');
 
-				if (pretty)  writer.write(EOL);
+				if (pretty) writer.write(EOL);
 				count++;
 			}
 
@@ -171,7 +177,7 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	 */
 	@Override
 	public String toString()
-	{		
+	{
 		return toPrettyString();
 	}
 

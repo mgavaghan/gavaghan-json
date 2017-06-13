@@ -11,9 +11,14 @@ import java.io.StringWriter;
 public abstract class AbstractJSONValue implements JSONValue
 {
 	/**
-	 * Render this object as a string.
+	 * Render a JSONValue as a string.
 	 * 
 	 * @param value
+	 *           the JSONValue to render
+	 * @param pretty
+	 *           'true' to pretty-print with line feeds and indentation, 'false'
+	 *           to render on a single line.
+	 * @return the rendered value
 	 */
 	static public String toString(JSONValue value, boolean pretty)
 	{
@@ -34,6 +39,8 @@ public abstract class AbstractJSONValue implements JSONValue
 
 	/**
 	 * Render this object as a pretty-printed string.
+	 * 
+	 * @return
 	 */
 	@Override
 	public String toString()
@@ -43,6 +50,8 @@ public abstract class AbstractJSONValue implements JSONValue
 
 	/**
 	 * Render this object as a pretty-printed string.
+	 * 
+	 * @return
 	 */
 	@Override
 	public String toPrettyString()
@@ -52,6 +61,8 @@ public abstract class AbstractJSONValue implements JSONValue
 
 	/**
 	 * Render this object as a flattened string.
+	 * 
+	 * @return
 	 */
 	@Override
 	public String toFlatString()

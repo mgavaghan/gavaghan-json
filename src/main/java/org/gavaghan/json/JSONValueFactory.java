@@ -6,7 +6,7 @@ import java.io.Reader;
 
 /**
  * Factory for determining the proper JSONValue implementation based on the
- * upcoming stream.
+ * incoming stream.
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */

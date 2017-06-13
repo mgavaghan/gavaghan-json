@@ -12,14 +12,16 @@ import java.io.Writer;
 public interface JSONValue
 {
 	/**
-	 * Get the underlying value.
+	 * Get the underlying value (as an Integer, a String, a Boolean, etc.)
 	 * 
 	 * @return value in the implementation specific type
 	 */
 	public Object getValue();
 
 	/**
-	 * Read a JSON value (presumes the key has already been read).
+	 * Read a JSON value (presumes the key has already been read) and set the
+	 * underlying value. There's generally no reason to call this method
+	 * directly. It is intended to be overridden by an extended type.
 	 * 
 	 * @param path
 	 *           path to the value being read
@@ -33,7 +35,8 @@ public interface JSONValue
 	public void read(String path, PushbackReader pbr) throws IOException, JSONException;
 
 	/**
-	 * Render this JSON value to a Writer.
+	 * Render this JSON value to a Writer. There's generally no reason to call
+	 * this method directly. It is intended to be overridden by an extended type.
 	 * 
 	 * @param indent
 	 *           indent padding
@@ -42,16 +45,21 @@ public interface JSONValue
 	 * @param pretty
 	 *           'true' for pretty-print, 'false' for flat
 	 * @throws IOException
+	 *            on read failure
 	 */
 	public void write(String indent, Writer writer, boolean pretty) throws IOException;
 
 	/**
 	 * Render this object as a pretty-printed string.
+	 * 
+	 * @return
 	 */
 	public String toPrettyString();
 
 	/**
 	 * Render this object as a flattened string.
+	 * 
+	 * @return
 	 */
 	public String toFlatString();
 }

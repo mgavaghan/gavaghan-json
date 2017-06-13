@@ -194,7 +194,9 @@ public class JSONNumber extends AbstractJSONValue
 	}
 
 	/**
-	 * Read a JSON value (presumes the key has already been read).
+	 * Read a JSON value (presumes the key has already been read) and set the
+	 * underlying value. There's generally no reason to call this method
+	 * directly. It is intended to be overridden by an extended type.
 	 * 
 	 * @param path
 	 *           path to the value being read
@@ -243,7 +245,7 @@ public class JSONNumber extends AbstractJSONValue
 	 * @throws IOException
 	 */
 	@Override
-	public void write(String indent, Writer writer, boolean pretty)  throws IOException
+	public void write(String indent, Writer writer, boolean pretty) throws IOException
 	{
 		writer.write(mValue.toString());
 	}
