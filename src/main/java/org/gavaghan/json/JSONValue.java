@@ -12,7 +12,7 @@ import java.io.Writer;
 public interface JSONValue
 {
 	/**
-	 * Get the underlying value (as an Integer, a String, a Boolean, etc.)
+	 * Get the underlying value (as a BigDecimal, a String, a Boolean, etc.)
 	 * 
 	 * @return value in the implementation specific type
 	 */
