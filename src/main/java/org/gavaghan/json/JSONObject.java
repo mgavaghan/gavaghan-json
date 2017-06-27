@@ -34,8 +34,6 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 
 	/**
 	 * Create a new JSONObject.
-	 * 
-	 * @param factory
 	 */
 	public JSONObject()
 	{
