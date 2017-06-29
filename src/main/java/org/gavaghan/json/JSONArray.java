@@ -94,6 +94,7 @@ public class JSONArray extends AbstractJSONValue
 
       @SuppressWarnings("unchecked")
 		List<JSONValue> source = (List<JSONValue>) value.getValue();
+      
       mValue = new ArrayList<JSONValue>();
 
       for (JSONValue json : source)
