@@ -35,6 +35,27 @@ public interface JSONValue
 	public void read(String path, PushbackReader pbr) throws IOException, JSONException;
 
 	/**
+	 * Create a prototype instance of the same type.
+	 * 
+	 * @return
+	 */
+	public JSONValue createPrototype();
+
+	/**
+	 * Copy the value of another JSONValue into our underlying value.
+	 * 
+	 * @param value
+	 */
+	public void copyValue(JSONValue value);
+
+	/**
+	 * Create a deep copy of this instance.
+	 * 
+	 * @return
+	 */
+	public JSONValue deepCopy();
+
+	/**
 	 * Render this JSON value to a Writer. There's generally no reason to call
 	 * this method directly. It is intended to be overridden by an extended type.
 	 * 

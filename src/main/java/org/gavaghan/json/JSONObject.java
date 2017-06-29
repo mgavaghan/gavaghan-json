@@ -51,6 +51,49 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	}
 
 	/**
+	 * Create a prototype instance of the same type.
+	 * 
+	 * @return
+	 */
+	@Override
+	public JSONValue createPrototype()
+	{
+		return new JSONObject();
+	}
+
+	/**
+	 * Copy the value of another JSONValue into our underlying value.
+	 * 
+	 * @param value
+	 */
+	@Override
+	public void copyValue(JSONValue value)
+	{
+		if (!getClass().isAssignableFrom(value.getClass())) throw new RuntimeException("Can't assign a " + value.getClass().getName() + " to a " + getClass().getName());
+
+      JSONObject source = (JSONObject)value.getValue();
+
+      for (String key : source.keySet())
+      {
+        put(key, source.get(key));
+      }
+	}
+
+	/**
+	 * Create a deep copy of this instance.
+	 * 
+	 * @return
+	 */
+	@Override
+	public JSONValue deepCopy()
+	{
+      JSONValue copy = createPrototype();
+      copy.copyValue(this);
+      return copy;
+
+	}
+
+	/**
 	 * Read a JSON value (presumes the key has already been read) and set the
 	 * underlying value. There's generally no reason to call this method
 	 * directly. It is intended to be overridden by an extended type.

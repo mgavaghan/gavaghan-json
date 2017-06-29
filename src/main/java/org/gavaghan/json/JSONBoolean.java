@@ -56,6 +56,30 @@ public class JSONBoolean extends AbstractJSONValue
 	}
 
 	/**
+	 * Create a prototype instance of the same type.
+	 * 
+	 * @return
+	 */
+	@Override
+	public JSONValue createPrototype()
+	{
+		return new JSONBoolean();
+	}
+
+	/**
+	 * Copy the value of another JSONValue into our underlying value.
+	 * 
+	 * @param value
+	 */
+	@Override
+	public void copyValue(JSONValue value)
+	{
+		if (!getClass().isAssignableFrom(value.getClass())) throw new RuntimeException("Can't assign a " + value.getClass().getName() + " to a " + getClass().getName());
+
+		mValue = (Boolean) value.getValue();
+	}
+
+	/**
 	 * Read a JSON value (presumes the key has already been read) and set the
 	 * underlying value. There's generally no reason to call this method
 	 * directly. It is intended to be overridden by an extended type.
@@ -73,24 +97,24 @@ public class JSONBoolean extends AbstractJSONValue
 	public void read(String path, PushbackReader pbr) throws IOException, JSONException
 	{
 		char c = JSONValueFactory.demand(pbr);
-		
+
 		if (c == 't')
 		{
-			if (JSONValueFactory.demand(pbr) != 'r')  throw new JSONException(path, "Content does not appear to be a boolean.");
-			if (JSONValueFactory.demand(pbr) != 'u')  throw new JSONException(path, "Content does not appear to be a boolean.");
-			if (JSONValueFactory.demand(pbr) != 'e')  throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'r') throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'u') throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'e') throw new JSONException(path, "Content does not appear to be a boolean.");
 			mValue = Boolean.TRUE;
 		}
-		
+
 		else if (c == 'f')
 		{
-			if (JSONValueFactory.demand(pbr) != 'a')  throw new JSONException(path, "Content does not appear to be a boolean.");
-			if (JSONValueFactory.demand(pbr) != 'l')  throw new JSONException(path, "Content does not appear to be a boolean.");
-			if (JSONValueFactory.demand(pbr) != 's')  throw new JSONException(path, "Content does not appear to be a boolean.");
-			if (JSONValueFactory.demand(pbr) != 'e')  throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'a') throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'l') throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 's') throw new JSONException(path, "Content does not appear to be a boolean.");
+			if (JSONValueFactory.demand(pbr) != 'e') throw new JSONException(path, "Content does not appear to be a boolean.");
 			mValue = Boolean.FALSE;
 		}
-		
+
 		else throw new JSONException(path, "Content does not appear to be a boolean.");
 	}
 
@@ -106,7 +130,7 @@ public class JSONBoolean extends AbstractJSONValue
 	 * @throws IOException
 	 */
 	@Override
-	public void write(String indent, Writer writer, boolean pretty)  throws IOException
+	public void write(String indent, Writer writer, boolean pretty) throws IOException
 	{
 		writer.write(mValue.toString());
 	}

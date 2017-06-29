@@ -30,6 +30,28 @@ public class JSONNull extends AbstractJSONValue
 	}
 
 	/**
+	 * Create a prototype instance of the same type.
+	 * 
+	 * @return
+	 */
+	@Override
+	public JSONValue createPrototype()
+	{
+		return new JSONNull();
+	}
+
+	/**
+	 * Copy the value of another JSONValue into our underlying value.
+	 * 
+	 * @param value
+	 */
+	@Override
+	public void copyValue(JSONValue value)
+	{
+		if (!getClass().isAssignableFrom(value.getClass())) throw new RuntimeException("Can't assign a " + value.getClass().getName() + " to a " + getClass().getName());
+	}
+
+	/**
 	 * Read a JSON value (presumes the key has already been read) and set the
 	 * underlying value. There's generally no reason to call this method
 	 * directly. It is intended to be overridden by an extended type.

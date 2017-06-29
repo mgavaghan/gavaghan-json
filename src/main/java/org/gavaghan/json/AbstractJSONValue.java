@@ -38,6 +38,20 @@ public abstract class AbstractJSONValue implements JSONValue
 	}
 
 	/**
+	 * Create a deep copy of this instance.
+	 * 
+	 * @return
+	 */
+	@Override
+	public JSONValue deepCopy()
+	{
+      JSONValue copy = createPrototype();
+      copy.copyValue(this);
+      return copy;
+
+	}
+
+	/**
 	 * Render this object as a pretty-printed string.
 	 * 
 	 * @return
