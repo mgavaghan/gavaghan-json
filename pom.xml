@@ -6,7 +6,7 @@
 	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
-	<name>json</name>
+	<name>gavaghan-json</name>
 	<description>Extendable JSON document reader</description>
 	<url>http://maven.apache.org</url>
 
