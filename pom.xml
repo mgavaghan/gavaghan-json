@@ -39,6 +39,23 @@
 		<additionalparam>-Xdoclint:none</additionalparam>
 	</properties>
 
+	<distributionManagement>
+		<repository>
+			<id>gavaghan-org-repository</id>
+			<url>ftp://ftp.gavaghan.org/maven</url>
+		</repository>
+	</distributionManagement>
+
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ftp</artifactId>
+				<version>1.0-beta-6</version>
+			</extension>
+		</extensions>
+	</build>
+
 	<dependencies>
 		<!-- Unit testing -->
 		<dependency>
