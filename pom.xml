@@ -7,7 +7,7 @@
 	<packaging>jar</packaging>
 
 	<name>gavaghan-json</name>
-	<description>Extendable JSON document reader</description>
+	<description>Extendable JSON document parser</description>
 	<url>http://maven.apache.org</url>
 
 	<licenses>
@@ -44,6 +44,10 @@
 			<id>gavaghan-org-repository</id>
 			<url>ftp://ftp.gavaghan.org/maven</url>
 		</repository>
+		<site>
+			<id>gavaghan-org-projects</id>
+			<url>ftp://ftp.gavaghan.org/projects/gavaghan-json</url>
+		</site>
 	</distributionManagement>
 
 	<build>
