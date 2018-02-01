@@ -20,7 +20,7 @@ public class JSONString extends AbstractJSONValue
 	 * @param path
 	 *           path to the value being read
 	 * @param pbr
-	 * @return
+	 * @return the complete string read from the reader
 	 * @throws IOException
 	 * @throws JSONException
 	 */
@@ -127,7 +127,7 @@ public class JSONString extends AbstractJSONValue
 	/**
 	 * Get the underlying value.
 	 * 
-	 * @return
+	 * @return the underlying value of this instance
 	 */
 	@Override
 	public Object getValue()
@@ -138,7 +138,7 @@ public class JSONString extends AbstractJSONValue
 	/**
 	 * Create a prototype instance of the same type.
 	 * 
-	 * @return
+	 * @return another object of the same implementation
 	 */
 	@Override
 	public JSONValue createPrototype()

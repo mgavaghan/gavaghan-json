@@ -37,7 +37,8 @@ public interface JSONValue
 	/**
 	 * Create a prototype instance of the same type.
 	 * 
-	 * @return
+	 * @return create a new <code>JSONValue</code> that has the same
+	 *         implementation as this instance
 	 */
 	public JSONValue createPrototype();
 
@@ -51,8 +52,9 @@ public interface JSONValue
 	/**
 	 * Create a deep copy of this instance.
 	 * 
-	 * @return
+	 * @return a deep copy of this <code>JSONValue</code>
 	 */
+
 	public JSONValue deepCopy();
 
 	/**
@@ -73,14 +75,14 @@ public interface JSONValue
 	/**
 	 * Render this object as a pretty-printed string.
 	 * 
-	 * @return
+	 * @return this instance rendered as a pretty-printed JSON string
 	 */
 	public String toPrettyString();
 
 	/**
 	 * Render this object as a flattened string.
 	 * 
-	 * @return
+	 * @return this instance rendered as a flat JSON string
 	 */
 	public String toFlatString();
 }

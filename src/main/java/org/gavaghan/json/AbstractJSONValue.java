@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 /**
- * Base implementation of a JSONValue
+ * Base implementation of a <code>JSONValue</code>.
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
@@ -37,24 +37,23 @@ public abstract class AbstractJSONValue implements JSONValue
 		return str;
 	}
 
-	/**
-	 * Create a deep copy of this instance.
+	/*
+	 * @Override(non-Javadoc)
 	 * 
-	 * @return
+	 * @see org.gavaghan.json.JSONValue#deepCopy()
 	 */
-	@Override
 	public JSONValue deepCopy()
 	{
-      JSONValue copy = createPrototype();
-      copy.copyValue(this);
-      return copy;
+		JSONValue copy = createPrototype();
+		copy.copyValue(this);
+		return copy;
 
 	}
 
 	/**
 	 * Render this object as a pretty-printed string.
 	 * 
-	 * @return
+	 * @return this instance rendered as a JSON string
 	 */
 	@Override
 	public String toString()
@@ -62,10 +61,10 @@ public abstract class AbstractJSONValue implements JSONValue
 		return toPrettyString();
 	}
 
-	/**
-	 * Render this object as a pretty-printed string.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return
+	 * @see org.gavaghan.json.JSONValue#toPrettyString()
 	 */
 	@Override
 	public String toPrettyString()
@@ -73,10 +72,10 @@ public abstract class AbstractJSONValue implements JSONValue
 		return toString(this, true);
 	}
 
-	/**
-	 * Render this object as a flattened string.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return
+	 * @see org.gavaghan.json.JSONValue#toFlatString()
 	 */
 	@Override
 	public String toFlatString()
