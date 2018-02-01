@@ -119,7 +119,7 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 			String key;
 
 			// next is either a key or a closing brace
-			JSONValueFactory.skipWhitespace(pbr);
+			mFactory.skipWhitespace(pbr);
 			c = JSONValueFactory.demand(pbr);
 
 			// is it a string?
@@ -140,10 +140,10 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 			}
 
 			// next ought to be a colon
-			JSONValueFactory.skipWhitespace(pbr);
+			mFactory.skipWhitespace(pbr);
 			c = JSONValueFactory.demand(pbr);
 			if (c != ':') throw new JSONException(path + "." + key, "Expected ':' after key value");
-			JSONValueFactory.skipWhitespace(pbr);
+			mFactory.skipWhitespace(pbr);
 
 			// next, read a JSONValue
 			JSONValue value = mFactory.read(path + "." + key, pbr);
@@ -152,7 +152,7 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 			put(key, value);
 
 			// next must be comma or close
-			JSONValueFactory.skipWhitespace(pbr);
+			mFactory.skipWhitespace(pbr);
 			c = JSONValueFactory.demand(pbr);
 
 			if (c == ',') continue;

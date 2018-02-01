@@ -124,7 +124,7 @@ public class JSONArray extends AbstractJSONValue
 		if (c != '[') throw new JSONException(path, "Content does not appear to be an array.");
 
 		// empty array is an easy out
-		JSONValueFactory.skipWhitespace(pbr);
+		mFactory.skipWhitespace(pbr);
 		c = JSONValueFactory.demand(pbr);
 		if (c == ']') return;
 		pbr.unread(c);
@@ -138,7 +138,7 @@ public class JSONArray extends AbstractJSONValue
 				mValue.add(value);
 
 				// get next non-whitespace
-				JSONValueFactory.skipWhitespace(pbr);
+				mFactory.skipWhitespace(pbr);
 				c = JSONValueFactory.demand(pbr);
 
 				// is end?
@@ -147,7 +147,7 @@ public class JSONArray extends AbstractJSONValue
 				// is more
 				if (c == ',')
 				{
-					JSONValueFactory.skipWhitespace(pbr);
+					mFactory.skipWhitespace(pbr);
 					continue;
 				}
 

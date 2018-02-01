@@ -5,8 +5,8 @@ import java.io.PushbackReader;
 import java.io.Reader;
 
 /**
- * Factory for determining the proper JSONValue implementation based on the
- * incoming stream.
+ * Factory for determining the proper <code>JSONValue</code> implementation
+ * based on the incoming stream.
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
@@ -16,13 +16,17 @@ public class JSONValueFactory
 	static public final JSONValueFactory DEFAULT = new JSONValueFactory();
 
 	/**
-	 * Skip to first non-whitespace character.
+	 * Skip to first non-whitespace character. Derived implementations may choose
+	 * to override this in order to redefine whitespace.
+	 * 
+	 * @see org.gavaghan.json.CommentedJSONValueFactory
 	 * 
 	 * @param pbr
 	 *           a pushback reader
 	 * @throws IOException
+	 * @throws JSONException
 	 */
-	static public void skipWhitespace(PushbackReader pbr) throws IOException
+	public void skipWhitespace(PushbackReader pbr) throws IOException, JSONException
 	{
 		for (;;)
 		{
@@ -40,11 +44,11 @@ public class JSONValueFactory
 	}
 
 	/**
-	 * Demand a characters and throw a JSONException if EOF.
+	 * Demand a character from the reader and throw a <code>JSONException</code> if EOF.
 	 * 
 	 * @param rdr
 	 *           a reader
-	 * @return
+	 * @return the next available character
 	 * @throws IOException
 	 * @throws JSONException
 	 */
@@ -59,8 +63,10 @@ public class JSONValueFactory
 	 * Callback when a string is encountered.
 	 * 
 	 * @param path
+	 *           current path into the JSON object
 	 * @param pbr
-	 * @return
+	 *           input reader
+	 * @return <code>JSONValue</code> implementation for a string
 	 * @throws IOException
 	 * @throws JSONException
 	 */
@@ -73,8 +79,10 @@ public class JSONValueFactory
 	 * Callback when a number is encountered.
 	 * 
 	 * @param path
+	 *           current path into the JSON object
 	 * @param pbr
-	 * @return
+	 *           input reader
+	 * @return <code>JSONValue</code> implementation for a number
 	 * @throws IOException
 	 * @throws JSONException
 	 */
@@ -87,8 +95,10 @@ public class JSONValueFactory
 	 * Callback when an array is encountered.
 	 * 
 	 * @param path
+	 *           current path into the JSON object
 	 * @param pbr
-	 * @return
+	 *           input reader
+	 * @return <code>JSONValue</code> implementation for an array
 	 * @throws IOException
 	 * @throws JSONException
 	 */
@@ -101,8 +111,10 @@ public class JSONValueFactory
 	 * Callback when an object is encountered.
 	 * 
 	 * @param path
+	 *           current path into the JSON object
 	 * @param pbr
-	 * @return
+	 *           input reader
+	 * @return <code>JSONValue</code> implementation for an object
 	 * @throws IOException
 	 * @throws JSONException
 	 */
@@ -115,8 +127,10 @@ public class JSONValueFactory
 	 * Callback when a boolean is encountered.
 	 * 
 	 * @param path
+	 *           current path into the JSON object
 	 * @param pbr
-	 * @return
+	 *           input reader
+	 * @return <code>JSONValue</code> implementation for a boolean
 	 * @throws IOException
 	 * @throws JSONException
 	 */
@@ -129,8 +143,10 @@ public class JSONValueFactory
 	 * Callback when a null is encountered.
 	 * 
 	 * @param path
+	 *           current path into the JSON object
 	 * @param pbr
-	 * @return
+	 *           input reader
+	 * @return <code>JSONValue</code> implementation for a null
 	 * @throws IOException
 	 * @throws JSONException
 	 */
@@ -140,12 +156,16 @@ public class JSONValueFactory
 	}
 
 	/**
-	 * Callback for the start of an unknown type.
+	 * Callback for the start of an unknown type. The base implementation throws
+	 * a <code>JSONException</code>
 	 * 
 	 * @param path
+	 *           current path into the JSON object
 	 * @param pbr
+	 *           input reader
 	 * @param c
-	 * @return
+	 *           unhandled character
+	 * @return <code>JSONValue</code> implementation for a non-standard data type
 	 * @throws IOException
 	 * @throws JSONException
 	 */
@@ -164,7 +184,7 @@ public class JSONValueFactory
 	/**
 	 * Get the minimum size of the pushback buffer.
 	 * 
-	 * @return
+	 * @return the size of the requied pushback buffer
 	 */
 	public int getPushbackBufferSize()
 	{
@@ -175,7 +195,7 @@ public class JSONValueFactory
 	 * Read the JSON value that comes after the whitespace (if any).
 	 * 
 	 * @param reader
-	 * @return
+	 * @return the next <code>JSONValue</code>
 	 * @throws IOException
 	 * @throws JSONException
 	 */
@@ -202,7 +222,7 @@ public class JSONValueFactory
 	 *           JSON path to the value we're reading
 	 * @param pbr
 	 *           a pushback reader
-	 * @return
+	 * @return the next <code>JSONValue</code>
 	 * @throws IOException
 	 * @throws JSONException
 	 */
