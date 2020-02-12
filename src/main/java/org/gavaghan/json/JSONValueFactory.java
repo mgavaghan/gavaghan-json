@@ -30,6 +30,9 @@ public class JSONValueFactory
 	/** The default implementation. */
 	static public final JSONValueFactory DEFAULT = new JSONValueFactory();
 
+   /** Null singleton. */
+   static public final JSONNull NULL = new JSONNull();
+
 	/**
 	 * Skip to first non-whitespace character. Derived implementations may choose
 	 * to override this in order to redefine whitespace.
@@ -167,7 +170,7 @@ public class JSONValueFactory
 	 */
 	protected JSONValue onNull(String path, PushbackReader pbr) throws IOException, JSONException
 	{
-		return new JSONNull();
+		return NULL;
 	}
 
 	/**

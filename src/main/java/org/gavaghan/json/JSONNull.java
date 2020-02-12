@@ -52,7 +52,7 @@ public class JSONNull extends AbstractJSONValue
 	@Override
 	public JSONValue createPrototype()
 	{
-		return new JSONNull();
+		return JSONValueFactory.NULL;
 	}
 
 	/**
