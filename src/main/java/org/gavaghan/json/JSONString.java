@@ -152,6 +152,8 @@ public class JSONString extends AbstractJSONValue
    /**
     * Get the underlying value cast as a String.
     * 
+    * @since 1.2
+    * 
     * @return the underlying value of this instance
     */
    public String getStringValue()

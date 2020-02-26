@@ -211,6 +211,8 @@ public class JSONNumber extends AbstractJSONValue
    /**
     * Get the underlying value.
     * 
+    * @since 1.2
+    * 
     * @return
     */
    public BigDecimal getBigDecimalValue()

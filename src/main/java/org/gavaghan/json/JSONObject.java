@@ -68,6 +68,8 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
    /**
     * Get the underlying value as a JSONObject.
     * 
+    * @since 1.2
+    * 
     * @return
     */
    public JSONObject getObjectValue()

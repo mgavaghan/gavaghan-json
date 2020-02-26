@@ -50,6 +50,8 @@ public class JSONNull extends AbstractJSONValue
    /**
     * Get the underlying value as a null.
     * 
+    * @since 1.2
+    * 
     * @return
     */
    public Object getNullValue()
@@ -65,7 +67,7 @@ public class JSONNull extends AbstractJSONValue
 	@Override
 	public JSONValue createPrototype()
 	{
-		return JSONValueFactory.NULL;
+		return INSTANCE;
 	}
 
 	/**
