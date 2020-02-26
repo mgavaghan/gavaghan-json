@@ -70,6 +70,16 @@ public class JSONBoolean extends AbstractJSONValue
 		return mValue;
 	}
 
+   /**
+    * Get the underlying value as a boolean.
+    * 
+    * @return
+    */
+   public boolean getListValue()
+   {
+      return mValue.booleanValue();
+   }
+   
 	/**
 	 * Create a prototype instance of the same type.
 	 * 

@@ -65,6 +65,16 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 		return this;
 	}
 
+   /**
+    * Get the underlying value as a JSONObject.
+    * 
+    * @return
+    */
+   public JSONObject getObjectValue()
+   {
+      return this;
+   }
+
 	/**
 	 * Create a prototype instance of the same type.
 	 * 
@@ -175,8 +185,6 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 
 			throw new JSONException(path, "JSON object is not grammatically correct.  Unexpected: " + c);
 		}
-
-		mFactory = null;
 	}
 
 	/**

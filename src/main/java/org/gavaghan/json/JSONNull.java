@@ -26,8 +26,11 @@ import java.io.Writer;
  */
 public class JSONNull extends AbstractJSONValue
 {
+   /** GC friendly JSONNull instance. */
+   static public final JSONNull INSTANCE = new JSONNull();
+   
 	/**
-	 * Create a new JSONBoolean.
+	 * Create a new JSONNull.
 	 */
 	public JSONNull()
 	{
@@ -44,7 +47,17 @@ public class JSONNull extends AbstractJSONValue
 		return null;
 	}
 
-	/**
+   /**
+    * Get the underlying value as a null.
+    * 
+    * @return
+    */
+   public Object getNullValue()
+   {
+      return null;
+   }
+
+   /**
 	 * Create a prototype instance of the same type.
 	 * 
 	 * @return

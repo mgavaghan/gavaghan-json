@@ -208,6 +208,16 @@ public class JSONNumber extends AbstractJSONValue
 		return mValue;
 	}
 
+   /**
+    * Get the underlying value.
+    * 
+    * @return
+    */
+   public BigDecimal getBigDecimalValue()
+   {
+      return mValue;
+   }
+
 	/**
 	 * Create a prototype instance of the same type.
 	 * 
