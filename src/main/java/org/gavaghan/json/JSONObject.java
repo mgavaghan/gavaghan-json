@@ -21,7 +21,7 @@ import java.io.Writer;
 import java.util.LinkedHashMap;
 
 /**
- * A JSON object as defined by http://www.json.org/
+ * A JSON object as defined by <a href="http://www.json.org/">http://www.json.org/</a>
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
@@ -96,7 +96,7 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	@Override
 	public void copyValue(JSONValue value)
 	{
-		if (!getClass().isAssignableFrom(value.getClass())) throw new RuntimeException("Can't assign a " + value.getClass().getName() + " to a " + getClass().getName());
+		if (!JSONObject.class.isAssignableFrom(value.getClass())) throw new RuntimeException("Can't assign a " + value.getClass().getName() + " to a " + getClass().getName());
 
       JSONObject source = (JSONObject)value.getValue();
 
@@ -204,6 +204,12 @@ public class JSONObject extends LinkedHashMap<String, JSONValue> implements JSON
 	public void write(String indent, Writer writer, boolean pretty) throws IOException
 	{
 		String newIndent = indent + "   ";
+		
+		// if JSONObject has been subtyped, included the class name in the JSON
+		if (this instanceof TypedJSONObject)
+		{
+		   ((TypedJSONObject) this).getType();
+		}
 
 		if (size() == 0)
 		{

@@ -18,6 +18,9 @@ package org.gavaghan.json;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 
 /**
  * <p>
@@ -38,6 +41,12 @@ public class JSONValueFactory
 {
    /** The default implementation. */
    static public final JSONValueFactory DEFAULT = new JSONValueFactory();
+
+   /** GC safe empty parameters. */
+   static protected final Class<?> NO_PARAMS[] = new Class<?>[0];
+
+   /** GC safe empty argument. */
+   static protected final Object NO_ARGS[] = new Object[0];
 
    /**
     * Skip to first non-whitespace character. Derived implementations may choose to
@@ -183,10 +192,89 @@ public class JSONValueFactory
    }
 
    /**
-    * Create a new JSONValueFactory.
+    * <p>
+    * Give subtypes a chance to recast the loaded value as a <code>JSONValue</code>
+    * subtype. Default implementation returns 'null' because no recast is needed.
+    * </p>
+    * <p>
+    * Subtypes only need to return a default instance. The <code>read(</code>)
+    * method handles copying of data.
+    * </p>
+    * 
+    * @param value the value to potentially recast
+    * @return the recast value or 'null' if no recast was required.
+    * @throws IOException
+    * @throws JSONException
+    */
+   protected JSONValue recast(JSONValue value) throws IOException, JSONException
+   {
+      return null;
+   }
+
+   /**
+    * Create a new <code>JSONValueFactory</code>.
     */
    public JSONValueFactory()
    {
+   }
+
+   /**
+    * Get a named value from a <code>JSONObject</code>. If the value doesn't exist,
+    * make a default instance and add it.
+    * 
+    * @param jsonObj  the <code>JSONObject</code> to get a value from
+    * @param name     the name of the value
+    * @param jsonType if the value doesn't exist, this is the type to add
+    * @return the named value
+    */
+   static public Object getOrSet(JSONObject jsonObj, String name, Class<? extends JSONValue> jsonType)
+   {
+      Object retval;
+
+      // look to see if the value already exists
+      JSONValue jsonValue = jsonObj.get(name);
+
+      // if it exists, it's easy - just return it after a type check
+      if (jsonValue != null)
+      {
+         // make sure we got the right object type
+         if (!jsonType.isAssignableFrom(jsonValue.getClass()))
+         {
+            throw new RuntimeException(MessageFormat.format("Value named ''{0}'' is of type ''{1}'' which is not assignable from ''{2}''", name, jsonValue.getClass().getName(), jsonType.getName()));
+         }
+
+         retval = jsonValue.getValue();
+      }
+
+      // otherwise, create a default
+      else
+      {
+         try
+         {
+            Constructor ctx = jsonType.getConstructor(NO_PARAMS);
+            JSONValue newJSON = (JSONValue) ctx.newInstance(NO_ARGS);
+            jsonObj.put(name, newJSON);
+            retval = newJSON.getValue();
+         }
+         catch (NoSuchMethodException exc)
+         {
+            throw new Error("'" + jsonType.getName() + "' does not have a public default constructor");
+         }
+         catch (SecurityException exc)
+         {
+            throw new Error("Security exception thrown for default constructor found for: " + jsonType.getName());
+         }
+         catch (InstantiationException | IllegalAccessException | IllegalArgumentException exc)
+         {
+            throw new Error("Constructor for '" + jsonType.getName() + "' threw an exception", exc);
+         }
+         catch (InvocationTargetException exc)
+         {
+            throw new Error("Constructor for '" + jsonType.getName() + "' threw an exception", exc.getCause());
+         }
+      }
+
+      return retval;
    }
 
    /**
@@ -278,6 +366,16 @@ public class JSONValueFactory
 
       // implementation specific read
       value.read(path, pbr);
+
+      // give subtype a chance to select a different implementation
+      JSONValue recast = recast(value);
+
+      // if value was recasted copy over original data
+      if (recast != null)
+      {
+         recast.copyValue(value);
+         value = recast;
+      }
 
       return value;
    }

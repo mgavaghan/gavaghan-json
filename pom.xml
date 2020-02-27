@@ -1,85 +1,85 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+   <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.gavaghan</groupId>
-	<artifactId>gavaghan-json</artifactId>
-	<version>1.2</version>
-	<packaging>jar</packaging>
+   <groupId>org.gavaghan</groupId>
+   <artifactId>gavaghan-json</artifactId>
+   <version>1.2</version>
+   <packaging>jar</packaging>
 
-	<name>gavaghan-json</name>
-	<description>Extendable JSON document parser</description>
-	<url>http://maven.apache.org</url>
+   <name>gavaghan-json</name>
+   <description>Extendable JSON document parser</description>
+   <url>http://maven.apache.org</url>
 
-	<licenses>
-		<license>
-			<name>The Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-		</license>
-	</licenses>
+   <licenses>
+      <license>
+         <name>The Apache License, Version 2.0</name>
+         <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      </license>
+   </licenses>
 
-	<developers>
-		<developer>
-			<name>Mike Gavaghan</name>
-			<email>mike@gavaghan.org</email>
-			<organization>Mike Gavaghan</organization>
-			<organizationUrl>http://www.gavaghan.org/</organizationUrl>
-		</developer>
-	</developers>
+   <developers>
+      <developer>
+         <name>Mike Gavaghan</name>
+         <email>mike@gavaghan.org</email>
+         <organization>Mike Gavaghan</organization>
+         <organizationUrl>http://www.gavaghan.org/</organizationUrl>
+      </developer>
+   </developers>
 
-	<scm>
-		<connection>scm:git:git://github.com/mgavaghan/gavaghan-json.git</connection>
-		<developerConnection>scm:git:ssh://github.com:mgavaghan/gavaghan-json.git</developerConnection>
-		<url>http://github.com/mgavaghan/gavaghan-json/tree/master</url>
-	</scm>
+   <scm>
+      <connection>scm:git:git://github.com/mgavaghan/gavaghan-json.git</connection>
+      <developerConnection>scm:git:ssh://github.com:mgavaghan/gavaghan-json.git</developerConnection>
+      <url>http://github.com/mgavaghan/gavaghan-json/tree/master</url>
+   </scm>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<additionalparam>-Xdoclint:none</additionalparam>
-	</properties>
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <maven.compiler.source>1.8</maven.compiler.source>
+      <maven.compiler.target>1.8</maven.compiler.target>
+      <additionalparam>-Xdoclint:none</additionalparam>
+   </properties>
 
-	<distributionManagement>
-		<repository>
-			<id>gavaghan-org-repository</id>
-			<url>ftp://ftp.gavaghan.org/maven</url>
-		</repository>
-		<site>
-			<id>gavaghan-org-projects</id>
-			<url>ftp://ftp.gavaghan.org/projects/gavaghan-json</url>
-		</site>
-	</distributionManagement>
+   <distributionManagement>
+      <repository>
+         <id>gavaghan-org-repository</id>
+         <url>ftp://ftp.gavaghan.org/maven</url>
+      </repository>
+      <site>
+         <id>gavaghan-org-projects</id>
+         <url>ftp://ftp.gavaghan.org/projects/gavaghan-json</url>
+      </site>
+   </distributionManagement>
 
-	<build>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ftp</artifactId>
-				<version>1.0-beta-6</version>
-			</extension>
-		</extensions>
-	</build>
+   <build>
+      <extensions>
+         <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ftp</artifactId>
+            <version>1.0-beta-6</version>
+         </extension>
+      </extensions>
+   </build>
 
-	<dependencies>
-		<!-- Unit testing -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+   <dependencies>
+      <!-- Unit testing -->
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.12</version>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
-				<configuration>
-					<show>protected</show>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
+   <reporting>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.10.4</version>
+            <configuration>
+               <show>protected</show>
+            </configuration>
+         </plugin>
+      </plugins>
+   </reporting>
 </project>

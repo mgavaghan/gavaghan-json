@@ -27,7 +27,7 @@ import java.io.PushbackReader;
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
-public class CommentedJSONValueFactory extends JSONValueFactory
+public class CommentedJSONValueFactory extends TypedJSONObjectFactory
 {
 	/** The default implementation. */
 	static public final JSONValueFactory COMMENTED_DEFAULT = new CommentedJSONValueFactory();

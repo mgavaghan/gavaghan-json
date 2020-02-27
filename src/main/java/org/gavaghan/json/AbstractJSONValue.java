@@ -26,10 +26,10 @@ import java.io.StringWriter;
 public abstract class AbstractJSONValue implements JSONValue
 {
 	/**
-	 * Render a JSONValue as a string.
+	 * Render a <code>JSONValue</code> as a string.
 	 * 
 	 * @param value
-	 *           the JSONValue to render
+	 *           the <code>JSONValue</code> to render
 	 * @param pretty
 	 *           'true' to pretty-print with line feeds and indentation, 'false'
 	 *           to render on a single line.
