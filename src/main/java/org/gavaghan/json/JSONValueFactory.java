@@ -258,19 +258,19 @@ public class JSONValueFactory
          }
          catch (NoSuchMethodException exc)
          {
-            throw new Error("'" + jsonType.getName() + "' does not have a public default constructor");
+            throw new RuntimeException("'" + jsonType.getName() + "' does not have a public default constructor");
          }
          catch (SecurityException exc)
          {
-            throw new Error("Security exception thrown for default constructor found for: " + jsonType.getName());
+            throw new RuntimeException("Security exception thrown for default constructor found for: " + jsonType.getName());
          }
          catch (InstantiationException | IllegalAccessException | IllegalArgumentException exc)
          {
-            throw new Error("Constructor for '" + jsonType.getName() + "' threw an exception", exc);
+            throw new RuntimeException("Constructor for '" + jsonType.getName() + "' threw an exception", exc);
          }
          catch (InvocationTargetException exc)
          {
-            throw new Error("Constructor for '" + jsonType.getName() + "' threw an exception", exc.getCause());
+            throw new RuntimeException("Constructor for '" + jsonType.getName() + "' threw an exception", exc.getCause());
          }
       }
 
