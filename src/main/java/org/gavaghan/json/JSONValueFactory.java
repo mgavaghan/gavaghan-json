@@ -197,7 +197,7 @@ public class JSONValueFactory
     * subtype. Default implementation returns 'null' because no recast is needed.
     * </p>
     * <p>
-    * Subtypes only need to return a default instance. The <code>read(</code>)
+    * Subtypes only need to return a default instance. The <code>read()</code>
     * method handles copying of data.
     * </p>
     * 
@@ -370,7 +370,7 @@ public class JSONValueFactory
       // give subtype a chance to select a different implementation
       JSONValue recast = recast(value);
 
-      // if value was recasted copy over original data
+      // if value was recast, copy over original data
       if (recast != null)
       {
          recast.copyValue(value);
