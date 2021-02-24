@@ -20,6 +20,7 @@ public class TypedJSONValueFactory extends JSONValueFactory
     * default instance of it. If 'value' is not a <code>JSONObject</code> or if
     * 'type' value is not found, defer to the super class.
     * 
+    * @param path  JSON path to the value we're reading
     * @param value the value to possibly recast
     * @return the recast value or 'null' if no recast was required.
     * @throws JSONException
