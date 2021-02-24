@@ -29,6 +29,11 @@ public class TypedJSONObject extends JSONObject
     */
    public String getType()
    {
+      if (!this.containsKey(TYPE_KEY))
+      {
+         throw new RuntimeException("Type information is missing");
+      }
+
       JSONValue type = get(TYPE_KEY);
 
       if (!(type instanceof JSONString))
