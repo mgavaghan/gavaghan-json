@@ -15,6 +15,9 @@ import java.text.MessageFormat;
  */
 public class TypedJSONValueFactory extends JSONValueFactory
 {
+   /** The default implementation. */
+   static public final TypedJSONValueFactory TYPED_DEFAULT = new TypedJSONValueFactory();
+
    /**
     * Look for the 'type' value in a populated <code>JSONObject</code> and create a
     * default instance of it. If 'value' is not a <code>JSONObject</code> or if
