@@ -19,6 +19,7 @@ public class TypedJSONObject extends JSONObject
     */
    protected TypedJSONObject()
    {
+      put(TYPE_KEY, new JSONString(getClass().getName()));
    }
 
    /**
@@ -28,29 +29,13 @@ public class TypedJSONObject extends JSONObject
     */
    public String getType()
    {
-      String retval;
-
       JSONValue type = get(TYPE_KEY);
 
-      // if 'type' isn't set, create it
-      if (type == null)
+      if (!(type instanceof JSONString))
       {
-         retval = getClass().getName();
-
-         put(TYPE_KEY, new JSONString(retval));
+         throw new RuntimeException(MessageFormat.format("Type value of ''{0}'' is not an instance of a 'JSONString'", type.getClass().getSimpleName()));
       }
 
-      // otherwise, use previously set value
-      else
-      {
-         if (!(type instanceof JSONString))
-         {
-            throw new RuntimeException(MessageFormat.format("Type value of ''{0}'' is not an instance of a 'JSONString'", type.getClass()));
-         }
-
-         retval = ((JSONString) type).getStringValue();
-      }
-
-      return retval;
+      return ((JSONString) type).getStringValue();
    }
 }
