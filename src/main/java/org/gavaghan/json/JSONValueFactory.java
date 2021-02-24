@@ -201,12 +201,12 @@ public class JSONValueFactory
     * method handles copying of data.
     * </p>
     * 
+    * @param path  JSON path to the value we're reading
     * @param value the value to potentially recast
     * @return the recast value or 'null' if no recast was required.
-    * @throws IOException
     * @throws JSONException
     */
-   protected JSONValue recast(JSONValue value) throws IOException, JSONException
+   protected JSONValue recast(String path, JSONValue value) throws JSONException
    {
       return null;
    }
@@ -368,7 +368,7 @@ public class JSONValueFactory
       value.read(path, pbr);
 
       // give subtype a chance to select a different implementation
-      JSONValue recast = recast(value);
+      JSONValue recast = recast(path, value);
 
       // if value was recast, copy over original data
       if (recast != null)

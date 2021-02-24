@@ -1,6 +1,5 @@
 package org.gavaghan.json;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
@@ -14,7 +13,7 @@ import java.text.MessageFormat;
  * 
  * @author <a href="mailto:mike@gavaghan.org">Mike Gavaghan</a>
  */
-public class TypedJSONObjectFactory extends JSONValueFactory
+public class TypedJSONValueFactory extends JSONValueFactory
 {
    /**
     * Look for the 'type' value in a populated <code>JSONObject</code> and create a
@@ -23,28 +22,27 @@ public class TypedJSONObjectFactory extends JSONValueFactory
     * 
     * @param value the value to possibly recast
     * @return the recast value or 'null' if no recast was required.
-    * @throws IOException
     * @throws JSONException
     */
    @Override
-   protected JSONValue recast(JSONValue value) throws IOException, JSONException
+   protected JSONValue recast(String path, JSONValue value) throws JSONException
    {
       TypedJSONObject retval;
 
       // if it's not a JSONObject, we have nothing to do
-      if (!(value instanceof JSONObject)) return super.recast(value);
+      if (!(value instanceof JSONObject)) return super.recast(path, value);
 
       // look for a type value
       JSONObject valueObj = (JSONObject) value;
       JSONValue typeValue = valueObj.get(TypedJSONObject.TYPE_KEY);
 
       // if no type found, defer to superclass
-      if (typeValue == null) return super.recast(value);
+      if (typeValue == null) return super.recast(path, value);
 
       // ensure typeValue is a string
       if (!(typeValue instanceof JSONString))
       {
-         throw new IOException(MessageFormat.format("'type' value is a ''{0}'' but a JSONString was expected", typeValue.getClass().getName()));
+         throw new JSONException(path, MessageFormat.format("'type' value is a ''{0}'' but a JSONString was expected", typeValue.getClass().getName()));
       }
 
       // load the new class
@@ -57,13 +55,13 @@ public class TypedJSONObjectFactory extends JSONValueFactory
       }
       catch (ClassNotFoundException exc)
       {
-         throw new IOException(MessageFormat.format("Read a JSON object with type attribute ''{0}'' but that class could not be found", typeName), exc);
+         throw new JSONException(path, MessageFormat.format("Read a JSON object with type attribute ''{0}'' but that class could not be found", typeName), exc);
       }
 
       // ensure the class is an appropriate subtype
       if (!TypedJSONObject.class.isAssignableFrom(klass))
       {
-         throw new IOException(MessageFormat.format("Read an object of type ''{0}'' but that class is not assignable to 'TypedJSONObject'", typeName));
+         throw new JSONException(path, MessageFormat.format("Read an object of type ''{0}'' but that class is not assignable to 'TypedJSONObject'", typeName));
       }
 
       // instantiate a default instance
@@ -75,15 +73,15 @@ public class TypedJSONObjectFactory extends JSONValueFactory
       }
       catch (NoSuchMethodException | SecurityException exc)
       {
-         throw new IOException("No default constructor found for: " + klass.getName(), exc);
+         throw new JSONException(path, "No default constructor found for: " + klass.getName(), exc);
       }
       catch (InstantiationException | IllegalAccessException | IllegalArgumentException exc)
       {
-         throw new IOException("Constructor for '" + klass.getName() + "' threw an exception", exc);
+         throw new JSONException(path, "Constructor for '" + klass.getName() + "' threw an exception", exc);
       }
       catch (InvocationTargetException exc)
       {
-         throw new IOException("Constructor for '" + klass.getName() + "' threw an exception", exc.getCause());
+         throw new JSONException(path, "Constructor for '" + klass.getName() + "' threw an exception", exc.getCause());
       }
 
       return retval;

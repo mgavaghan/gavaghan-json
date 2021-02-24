@@ -25,7 +25,7 @@ public class TypedJSONObjectTest
    public void testSerDeser() throws IOException, JSONException
    {
       TestTypedJSONObject json = new TestTypedJSONObject();
-      JSONValueFactory jsonFactory = new TypedJSONObjectFactory();
+      JSONValueFactory jsonFactory = new TypedJSONValueFactory();
 
       // populated the object
       json.setString("Hello, World!");

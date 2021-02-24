@@ -3,7 +3,7 @@ package org.gavaghan.json;
 import java.text.MessageFormat;
 
 /**
- * Superclass of classed that embed their concrete type class in the json
+ * Superclass of classes that embed their concrete type class in the json
  * output. This enables reconstituting the proper type when reading from
  * serialized form.
  * 
@@ -13,7 +13,7 @@ public class TypedJSONObject extends JSONObject
 {
    /** The key to the type value of a <code>TypedJSONObject</code>. */
    static public final String TYPE_KEY = "jsonObjectSubclass";
-   
+
    /**
     * Only allow instantiation by subtypes.
     */
@@ -45,7 +45,7 @@ public class TypedJSONObject extends JSONObject
       {
          if (!(type instanceof JSONString))
          {
-            throw new RuntimeException(MessageFormat.format("type value of ''{0}'' is not an instance of a 'JSONString'", type.getClass()));
+            throw new RuntimeException(MessageFormat.format("Type value of ''{0}'' is not an instance of a 'JSONString'", type.getClass()));
          }
 
          retval = ((JSONString) type).getStringValue();
